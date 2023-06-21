@@ -8,20 +8,20 @@ int PORT;
 
 struct payload {
   size_t len;
-	unsigned char data[LWS_SEND_BUFFER_PRE_PADDING+MAX_RX_BUFFER_BYTES+LWS_SEND_BUFFER_POST_PADDING];
+  unsigned char data[LWS_SEND_BUFFER_PRE_PADDING+MAX_RX_BUFFER_BYTES+LWS_SEND_BUFFER_POST_PADDING];
 } rx;
 
 //wsi: Websockets Instance
 //in: data message
 static int http_cb(struct lws *wsi, enum lws_callback_reasons reason, void *user, void *in, size_t len) {
-	switch(reason) {
-		case LWS_CALLBACK_HTTP:
-			lws_serve_http_file(wsi, "./ui/index.html", "text/html", NULL, 0);
-			break;
-		default:
-			break;
-	}
-	return 0;
+  switch(reason) {
+    case LWS_CALLBACK_HTTP:
+      lws_serve_http_file(wsi, "./ui/index.html", "text/html", NULL, 0);
+      break;
+    default:
+      break;
+  }
+  return 0;
 }
 
 static int komi_cb(struct lws* wsi, enum lws_callback_reasons reason, void* user, void* in, size_t len) {
