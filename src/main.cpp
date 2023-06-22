@@ -3,15 +3,7 @@
 #include <libwebsockets.h>
 
 #include "include/config.hpp"
-
-//Maximum Receive Buffer is set to 8 bytes
-#define MAX_RX_BUFFER_BYTES 8
-int PORT;
-
-struct payload {
-  size_t len;
-  unsigned char data[LWS_SEND_BUFFER_PRE_PADDING+MAX_RX_BUFFER_BYTES+LWS_SEND_BUFFER_POST_PADDING];
-} rx;
+#include "include/predefined.h"
 
 //wsi: Websockets Instance
 //in: data message
@@ -73,7 +65,6 @@ int main(int argc, char** argv) {
       break;
   }
   printf("Reading from config.json...\n");
-  std::map<std::string, std::map<std::string, std::string>> conf = getConfig("../config.json");
   printf("Initialising context creation information...\n");
   struct lws_context_creation_info info;
   memset(&info, 0, sizeof(info));
