@@ -1,12 +1,36 @@
-{
-    "Section 1": {
-        "Button 1": "Execution Command",
-        "Button 2": "Execution Command",
-        "Button 3": "Execution Command"
+[
+    {
+        "name": "Section 1",
+        "components": [
+            {
+                "name": "Button 1",
+                "command": "Execution Command"
+            },
+            {
+                "name": "Button 2",
+                "command": "Execution Command"
+            },
+            {
+                "name": "Button 3",
+                "command": "Execution Command"
+            }
+        ]
     },
-    "Section 2": {
-        "Button 1": "Execution Command",
-        "Button 2": "Execution Command",
-        "Button 3": "Execution Command"
+    {
+        "name": "Section 2",
+        "components": [
+            {
+                "name": "Button 1",
+                "command": "Execution Command"
+            },
+            {
+                "name": "Button 2",
+                "command": "Execution Command"
+            },
+            {
+                "name": "Button 3",
+                "command": "Execution Command"
+            }
+        ]
     }
-}
+]
