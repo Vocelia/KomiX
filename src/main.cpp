@@ -45,26 +45,13 @@ static struct lws_protocols protocols[] = {
 };
 
 int main(int argc, char** argv) {
-  switch (argc) {
-    case 1:
-      PORT = 8080;
-      break;
-    case 2:
-      if (!strcmp(argv[1], "--help")) {
-        printf("komix [PORT]\nEX: komix 8080\n");
-        return 0;
-      } else if (!strcmp(argv[1], "-h")) {
-        printf("komix [PORT]\nEX: komix 8080\n");
-        return 0;
-      } else {
-        PORT = atoi(argv[1]);
-        printf("Listening on port %d...\n", PORT); 
-      }
-      break;
-    default:
-      break;
-  }
-  printf("Reading from config.json...\n");
+  printf("Reading from server.ini...\n");
+  Config* serv = new Config("../server.ini");
+  PORT = atoi(serv->ini.GetValue("", "port"));
+  TIMEOUT = atoi(serv->ini.GetValue("", "timeout"));
+  printf("Initialised server constants successfully!\n");
+  printf("Reading from config.ini...\n");
+  Config* conf = new Config("../config.ini");
   printf("Initialising context creation information...\n");
   struct lws_context_creation_info info;
   memset(&info, 0, sizeof(info));
@@ -78,7 +65,7 @@ int main(int argc, char** argv) {
     return -1;
   }
   printf("Created context information successfully!\n");
-  while (1) lws_service(context, 1000); //Timeout in milliseconds
+  while (1) lws_service(context, TIMEOUT); //Timeout in milliseconds
   lws_context_destroy(context);
   return 0;
 }
