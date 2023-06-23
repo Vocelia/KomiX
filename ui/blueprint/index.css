@@ -1,0 +1,13 @@
+h1 {
+  margin-bottom: 0.25em;
+}
+
+div {
+  width: fit-content;
+}
+
+@media only screen and (max-width: 600px) {
+  h1 {
+    font-size: 1.8em;
+  }
+}
