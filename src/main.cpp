@@ -21,17 +21,17 @@ static int http_cb(struct lws *wsi, enum lws_callback_reasons reason, void *user
 static int komi_cb(struct lws* wsi, enum lws_callback_reasons reason, void* user, void* in, size_t len) {
   switch (reason) {
     case LWS_CALLBACK_ESTABLISHED:
-      lwsl_notice("The connection to the client has been established!\n");
+      lwsl_notice("[INFO]: The connection to the client has been established!\n");
       break;
     case LWS_CALLBACK_RECEIVE:
-      lwsl_notice("Received client message successfully!\n");
+      lwsl_notice("[INFO]: Received client message successfully!\n");
       rx.len = len;
       memset(rx.data, 0, sizeof(rx.data)); //Clear rx buffer data
       memcpy(&rx.data[LWS_SEND_BUFFER_PRE_PADDING], in, len); //Copy data message to rx buffer
-      lwsl_notice("[DEBUG] Message: %s\n", &rx.data[LWS_SEND_BUFFER_PRE_PADDING]);
+      lwsl_notice("[DEBUG]: Message -> \"%s\"\n", &rx.data[LWS_SEND_BUFFER_PRE_PADDING]);
       break;
     case LWS_CALLBACK_CLOSED:
-      lwsl_notice("The connection to the client has been lost!\n");
+      lwsl_notice("[INFO]: The connection to the client has been lost!\n");
     default:
       break;
   }
@@ -46,12 +46,12 @@ static struct lws_protocols protocols[] = {
 
 int main(int argc, char** argv) {
   printf("Reading from server.ini...\n");
-  Config* serv = new Config("../server.ini");
+  Config* serv = new Config("./data/server.ini");
   PORT = atoi(serv->ini.GetValue("", "port"));
   TIMEOUT = atoi(serv->ini.GetValue("", "timeout"));
   printf("Initialised server constants successfully!\n");
   printf("Reading from config.ini...\n");
-  Config* conf = new Config("../config.ini");
+  Config* conf = new Config("./data/config.ini");
   printf("Initialising context creation information...\n");
   struct lws_context_creation_info info;
   memset(&info, 0, sizeof(info));
