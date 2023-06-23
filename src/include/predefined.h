@@ -1,6 +1,7 @@
 #include <libwebsockets.h>
 
-int PORT;
+unsigned int PORT;
+unsigned int TIMEOUT;
 //Maximum Receive Buffer is set to 8 bytes
 #define MAX_RX_BUFFER_BYTES 8
 
@@ -18,7 +19,5 @@ const char* head = "<!DOCTYPE html> \
 <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0\"> \
 </head> \
 <body>\n";
-const char* script = "</body> \
-<script>\n";
-const char* footer = "</script> \
-</html>";
+const char* script = "</body>\n<script>\n";
+const char* footer = "</script>\n</html>";
