@@ -1,7 +1,7 @@
 CXX = gcc
 OUTDIR = build
 CXXFLAGS = -Wall -o
-INCLUDE = -Isrc/include 
+INCLUDE = -Isrc/include	
 LDFLAGS = -lstdc++ -lwebsockets
 ifeq ($(OS), Windows_NT)
 	TARGET = main.exe
@@ -12,6 +12,11 @@ ifeq ($(OS), Windows_NT)
 	RM = rmdir /S /Q
 else
 	RM = rm -rf
+endif
+ifeq ($(OS), Windows_NT)
+	CP = xcopy /y /e
+else
+	CP = cp -r
 endif
 
 .PHONY: build clean run test
@@ -28,10 +33,12 @@ test:
 
 build:
 	mkdir $(OUTDIR)
+	$(CP) ui $(OUTDIR)
+	$(CP) data $(OUTDIR)
 	$(CXX) $(CXXFLAGS) ./$(OUTDIR)/$(TARGET) ./src/main.cpp $(INCLUDE) $(LDFLAGS)
 
 clean:
 	$(RM) $(OUTDIR)
 
 run:
-	./$(OUTDIR)/$(TARGET)
+	cd $(OUTDIR) && ./$(TARGET)
