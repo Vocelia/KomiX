@@ -1,4 +1,4 @@
-#include "include/config.hpp"
+#include "include/config.h"
 
 Config::Config(const char* path) {
   ini.SetUnicode();

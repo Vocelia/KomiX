@@ -2,8 +2,14 @@
 #include <cstdlib>
 #include <libwebsockets.h>
 
-#include "include/config.hpp"
+#include "include/uigen.h"
+#include "include/config.h"
 #include "include/predefined.h"
+
+struct payload {
+  size_t len;
+  unsigned char data[LWS_SEND_BUFFER_PRE_PADDING+MAX_RX_BUFFER_BYTES+LWS_SEND_BUFFER_POST_PADDING];
+} rx;
 
 //wsi: Websockets Instance
 //in: data message
@@ -47,11 +53,13 @@ static struct lws_protocols protocols[] = {
 int main(int argc, char** argv) {
   printf("Reading from server.ini...\n");
   Config* serv = new Config("./data/server.ini");
-  PORT = atoi(serv->ini.GetValue("", "port"));
-  TIMEOUT = atoi(serv->ini.GetValue("", "timeout"));
+  unsigned int PORT = atoi(serv->ini.GetValue("", "port"));
+  unsigned int TIMEOUT = atoi(serv->ini.GetValue("", "timeout"));
   printf("Initialised server constants successfully!\n");
-  printf("Reading from config.ini...\n");
-  Config* conf = new Config("./data/config.ini");
+  if (create_page()==-1) {
+    printf("[ERR]: Failed to create a User Interface page!\n");
+    return -1;
+  }
   printf("Initialising context creation information...\n");
   struct lws_context_creation_info info;
   memset(&info, 0, sizeof(info));
