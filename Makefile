@@ -35,7 +35,7 @@ build:
 	mkdir $(OUTDIR)
 	$(CP) ui $(OUTDIR)
 	$(CP) data $(OUTDIR)
-	$(CXX) $(CXXFLAGS) ./$(OUTDIR)/$(TARGET) src/main.cpp src/config.cpp $(INCLUDE) $(LDFLAGS)
+	$(CXX) $(CXXFLAGS) ./$(OUTDIR)/$(TARGET) src/main.cpp src/config.cpp src/uigen.cpp src/wrapper/String.cpp $(INCLUDE) $(LDFLAGS)
 
 clean:
 	$(RM) $(OUTDIR)
