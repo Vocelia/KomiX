@@ -6,6 +6,9 @@
 #include "include/config.h"
 #include "include/predefined.h"
 
+unsigned int PORT;
+unsigned int TIMEOUT;
+
 struct payload {
   size_t len;
   unsigned char data[LWS_SEND_BUFFER_PRE_PADDING+MAX_RX_BUFFER_BYTES+LWS_SEND_BUFFER_POST_PADDING];
@@ -30,7 +33,6 @@ static int komi_cb(struct lws* wsi, enum lws_callback_reasons reason, void* user
       lwsl_notice("[INFO]: The connection to the client has been established!\n");
       break;
     case LWS_CALLBACK_RECEIVE:
-      lwsl_notice("[INFO]: Received client message successfully!\n");
       rx.len = len;
       memset(rx.data, 0, sizeof(rx.data)); //Clear rx buffer data
       memcpy(&rx.data[LWS_SEND_BUFFER_PRE_PADDING], in, len); //Copy data message to rx buffer
@@ -53,13 +55,14 @@ static struct lws_protocols protocols[] = {
 int main(int argc, char** argv) {
   printf("Reading from server.ini...\n");
   Config* serv = new Config("./data/server.ini");
-  unsigned int PORT = atoi(serv->ini.GetValue("", "port"));
-  unsigned int TIMEOUT = atoi(serv->ini.GetValue("", "timeout"));
+  PORT = atoi(serv->ini.GetValue("", "port"));
+  TIMEOUT = atoi(serv->ini.GetValue("", "timeout"));
   printf("Initialised server constants successfully!\n");
   if (create_page()==-1) {
     printf("[ERR]: Failed to create a User Interface page!\n");
     return -1;
   }
+  printf("Created a User Interface page successfully!\n");
   printf("Initialising context creation information...\n");
   struct lws_context_creation_info info;
   memset(&info, 0, sizeof(info));
