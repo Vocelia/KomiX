@@ -1,6 +1,6 @@
 #pragma once
 #include <cstdio>
-#include <SimpleIni.h>
+#include "SimpleIni.h"
 
 class Config {
   private:
