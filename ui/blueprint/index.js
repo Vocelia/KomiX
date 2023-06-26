@@ -1,6 +1,3 @@
-let PORT = 8080;
-let socket = new WebSocket(`ws://${window.location.hostname}:${PORT}`, "KomiX");
-
 socket.onopen = (event) => {
     console.log("WebSocket connection established.");
 };
