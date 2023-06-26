@@ -111,6 +111,9 @@ int create_page() {
   }
   html_dump += js_buff_mod + js_buff;
   html_dump += FOOTER;
+  delete[] js_buff;
+  delete[] css_buff;
+  delete[] css_fw_buff;
   if (write_file("./ui/index.html", html_dump.toCharArray(), html_dump.length())==-1) {
     printf("[ERR]: Failed to write to \"./ui/index.html\"!\n");
     return -1;
