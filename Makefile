@@ -1,6 +1,6 @@
 CXX = gcc
 OUTDIR = build
-CXXFLAGS = -Wall -o
+CXXFLAGS = -Wall -O3 -o
 INCLUDE = -Isrc/include
 LDFLAGS = -lstdc++ -lwebsockets
 ifeq ($(OS), Windows_NT)
@@ -35,7 +35,8 @@ build:
 	mkdir $(OUTDIR)
 	$(CP) ui $(OUTDIR)
 	$(CP) data $(OUTDIR)
-	$(CXX) $(CXXFLAGS) ./$(OUTDIR)/$(TARGET) src/main.cpp src/config.cpp src/uigen.cpp src/exec.cpp src/wrapper/String.cpp $(INCLUDE) $(LDFLAGS)
+	mkdir $(OUTDIR)/logs
+	$(CXX) $(CXXFLAGS) ./$(OUTDIR)/$(TARGET) src/main.cpp src/config.cpp src/uigen.cpp src/exec.cpp src/misc.cpp src/wrapper/String.cpp $(INCLUDE) $(LDFLAGS)
 
 clean:
 	$(RM) $(OUTDIR)
