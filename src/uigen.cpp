@@ -15,10 +15,8 @@ static const char* SCRIPT = "</body>\n<script>\n";
 static const char* FOOTER = "</script>\n</html>";
 
 int create_page() {
-  printf("Reading from config.ini...\n");
-  Config* conf = new Config("./data/config.ini");
-  if (conf->get_all_sections()==-1) {
-    printf("[ERR]: Failed to get all sections of config.ini!\n");
+  if (CONFIG->get_all_sections()==-1) {
+    printf("[ERR]: Failed to get all sections of CONFIGig.ini!\n");
     return -1;
   }
   //Reading from index.css, index.js, pico.min.css
@@ -34,17 +32,17 @@ int create_page() {
   html_dump += STYLE;
   html_dump += "<center>\n";
   //Iteration for the Body section
-  for (size_t i=0; i<conf->sections.size; i++) {
-    char h1_buff[strlen(conf->sections.names[i])+18]; //18 -> HTML snippet's length 
-    sprintf(h1_buff, "<h1><u>%s</u></h1>\n", conf->sections.names[i]);
+  for (size_t i=0; i<CONFIG->sections.size; i++) {
+    char h1_buff[strlen(CONFIG->sections.names[i])+18]; //18 -> HTML snippet's length 
+    sprintf(h1_buff, "<h1><u>%s</u></h1>\n", CONFIG->sections.names[i]);
     html_dump += h1_buff;
     html_dump += "<div>\n";
-    if (conf->get_all_keys(conf->sections.names[i])==-1) {
-      printf("[ERR]: Failed to get all keys of section \"%s\"!\n", conf->sections.names[i]);
+    if (CONFIG->get_all_keys(CONFIG->sections.names[i])==-1) {
+      printf("[ERR]: Failed to get all keys of section \"%s\"!\n", CONFIG->sections.names[i]);
     }
-    for (size_t j=0; j<conf->keys.size; j++) {
-      char btn_buff[strlen(conf->keys.names[j])+20+28]; //(10*2) -> unsigned long int for i an j | 28 -> HTML snippet's length
-      sprintf(btn_buff, "<button id=\"s%ld-k%ld\">%s</button>\n", i, j, conf->keys.names[i]);
+    for (size_t j=0; j<CONFIG->keys.size; j++) {
+      char btn_buff[strlen(CONFIG->keys.names[j])+20+28]; //(10*2) -> unsigned long int for i an j | 28 -> HTML snippet's length
+      sprintf(btn_buff, "<button id=\"s%ld-k%ld\">%s</button>\n", i, j, CONFIG->keys.names[j]);
       html_dump += btn_buff;
     }
     html_dump += "</div>\n";
@@ -59,11 +57,11 @@ int create_page() {
   delete[] PORT_str;
   js_buff_mod += "let socket = new WebSocket(`ws://${window.location.hostname}:${port}`, \"KomiX\");\n";
   //Iteration for the Script section
-  for (size_t i=0; i<conf->sections.size; i++) {
-    if (conf->get_all_keys(conf->sections.names[i])==-1) {
-      printf("[ERR]: Failed to get all keys of section \"%s\"!\n", conf->sections.names[i]);
+  for (size_t i=0; i<CONFIG->sections.size; i++) {
+    if (CONFIG->get_all_keys(CONFIG->sections.names[i])==-1) {
+      printf("[ERR]: Failed to get all keys of section \"%s\"!\n", CONFIG->sections.names[i]);
     }
-    for (size_t j=0; j<conf->keys.size; j++) {
+    for (size_t j=0; j<CONFIG->keys.size; j++) {
       char* temp_sprintf_buff = new char[65+40]; //(10*4) -> unsigned long int 4 times | 65 -> JS snippet's length
       sprintf(temp_sprintf_buff, "document.getElementById(\"s%ld-k%ld\").onclick = () => socket.send(\"%ld-%ld\");\n", i, j, i, j);
       js_buff_mod += temp_sprintf_buff;
