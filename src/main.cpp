@@ -103,6 +103,7 @@ int main(int argc, char** argv) {
     return -1;
   }
   printf("Initialised context creation information successfully!\n");
+  printf("Your address is: http://%s:%d\n", getLocalIPAddr(), PORT);
   while (1) lws_service(context, TIMEOUT); //Timeout in milliseconds
   lws_context_destroy(context);
   return 0;

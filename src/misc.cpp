@@ -11,12 +11,30 @@ bool dir_exists(const char* path) {
 }
 #else
 #include <dirent.h>
+#include <ifaddrs.h>
+#include <arpa/inet.h>
 bool dir_exists(const char* path) {
   DIR* dir = opendir(path);
   if (dir) closedir(dir);
   else if (ENOENT == errno) return false;
   else return false;
   return true;
+}
+
+char* getLocalIPAddr() {
+  struct ifaddrs* ifa;
+  struct ifaddrs* ifap;
+  char* IP = new char[INET_ADDRSTRLEN];
+  getifaddrs(&ifap);
+  for (ifa=ifap; ifa!=NULL; ifa=ifa->ifa_next) {
+    if (ifa->ifa_addr!=NULL && ifa->ifa_addr->sa_family==AF_INET && strcmp(ifa->ifa_name, "lo")) {
+      struct sockaddr_in* addr = (struct sockaddr_in*)ifa->ifa_addr;
+      IP = inet_ntoa(addr->sin_addr);
+      break;
+    }
+  }
+  freeifaddrs(ifap);
+  return IP;
 }
 #endif
 
