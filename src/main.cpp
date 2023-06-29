@@ -15,11 +15,11 @@ unsigned TIMEOUT;
 const char* LOGS_PATH;
 unsigned char COMMAND_OUTPUT;
 
-static size_t len_ptr;
 static char** id_phldr;
+static unsigned long len_ptr;
 
 struct payload {
-  size_t len;
+  unsigned long len;
   char data[LWS_SEND_BUFFER_PRE_PADDING+MAX_RX_BUFFER_BYTES+LWS_SEND_BUFFER_POST_PADDING];
 } rx;
 
@@ -41,7 +41,7 @@ static int komi_cb(struct lws* wsi, enum lws_callback_reasons reason, void* user
       lwsl_notice("[INFO]: The connection to the client has been established!\n");
       break;
     case LWS_CALLBACK_RECEIVE:
-      rx.len = len;
+      rx.len = (unsigned long)len;
       memset(rx.data, 0, sizeof(rx.data)); //Clear rx buffer data
       memcpy(&rx.data[LWS_SEND_BUFFER_PRE_PADDING], in, len); //Copy data message to rx buffer
       lwsl_notice("[DEBUG]: Message -> \"%s\"\n", &rx.data[LWS_SEND_BUFFER_PRE_PADDING]);

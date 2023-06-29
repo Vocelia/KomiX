@@ -9,6 +9,7 @@
 static time_t now;
 
 int execute_command(const char* cmd) {
+  char cmd_out[strlen(cmd)+4];
   char cmd_buff[strlen(cmd)+5];
   sprintf(cmd_buff, "%s 2>&1", cmd);
   #ifdef _WIN32
@@ -29,9 +30,11 @@ int execute_command(const char* cmd) {
     case 2:
       time(&now);
       write_file(LOGS_PATH, "a", ctime(&now), strlen(ctime(&now)));
+      sprintf(cmd_out, "[%s]\n", cmd);
+      write_file(LOGS_PATH, "a", cmd_out, strlen(cmd_out));
       write_file(LOGS_PATH, "a", "-------------------------------------------------\n", 50);
       while (fgets(output, 512, pfd) != NULL) {
-        size_t output_len = strlen(output);
+        unsigned long output_len = strlen(output);
         if (output[output_len-1] == '\n') output[output_len] = '\0';
         write_file(LOGS_PATH, "a", output, output_len);
       }

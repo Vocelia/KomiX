@@ -7,7 +7,7 @@ Config::Config(const char* path) {
 }
 
 int Config::get_all_sections() {
-  unsigned int i = 0;
+  unsigned long i = 0;
   CSimpleIniA::TNamesDepend all_sections;
   ini.GetAllSections(all_sections);
   if (!all_sections.empty()) {
@@ -22,7 +22,7 @@ int Config::get_all_sections() {
 }
 
 int Config::get_all_keys(const char* section) {
-  unsigned int i = 0;
+  unsigned long i = 0;
   CSimpleIniA::TNamesDepend all_keys;
   ini.GetAllKeys(section, all_keys);
   if (!all_keys.empty()) {
