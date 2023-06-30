@@ -5,18 +5,9 @@ INCLUDE = -Isrc/include
 LDFLAGS = -lstdc++ -lwebsockets
 ifeq ($(OS), Windows_NT)
 	TARGET = main.exe
+	cp -r lib/* $(OUTDIR)
 else
 	TARGET = main
-endif
-ifeq ($(OS), Windows_NT)
-	RM = rmdir /S /Q
-else
-	RM = rm -rf
-endif
-ifeq ($(OS), Windows_NT)
-	CP = xcopy /y /e
-else
-	CP = cp -r
 endif
 
 .PHONY: build clean run test
@@ -33,13 +24,13 @@ test:
 
 build:
 	mkdir $(OUTDIR)
-	$(CP) ui $(OUTDIR)
-	$(CP) data $(OUTDIR)
+	cp -r ui $(OUTDIR)
+	cp -r data $(OUTDIR)
 	mkdir $(OUTDIR)/logs
 	$(CXX) $(CXXFLAGS) ./$(OUTDIR)/$(TARGET) src/main.cpp src/config.cpp src/uigen.cpp src/exec.cpp src/misc.cpp src/wrapper/String.cpp $(INCLUDE) $(LDFLAGS)
 
 clean:
-	$(RM) $(OUTDIR)
+	rm -rf $(OUTDIR)
 
 run:
 	cd $(OUTDIR) && ./$(TARGET)
