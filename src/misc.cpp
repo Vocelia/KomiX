@@ -9,6 +9,19 @@ bool dir_exists(const char* path) {
   DWORD attrib = GetFileAttributesA(path);
   return (attrib != INVALID_FILE_ATTRIBUTES && (attrib & FILE_ATTRIBUTE_DIRECTORY));
 }
+
+char* getLocalIPAddr() {
+  char* phldr = new char[512];
+  char* output = new char[512];
+  FILE* pfd = _popen("ipconfig | findstr IPv4", "r");
+  while (fgets(output, sizeof(output), pfd)!=NULL) strcat(phldr, output);
+  char* tkn = new char[strlen(phldr)];
+  tkn = strrchr(phldr, ' '); tkn++;
+  tkn[strlen(tkn)-1] = '\0';
+  delete[] output;
+  _pclose(pfd);
+  return tkn;
+}
 #else
 #include <dirent.h>
 #include <ifaddrs.h>
