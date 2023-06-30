@@ -19,11 +19,10 @@ int create_page() {
     printf("[ERR]: Failed to get all sections of CONFIGig.ini!\n");
     return -1;
   }
-  //Reading from index.css, index.js, pico.min.css
-  char* js_buff = read_file("./ui/blueprint/index.js");
+  //Reading from index.css, pico.min.css
   char* css_buff = read_file("./ui/blueprint/index.css");
   char* css_fw_buff = read_file("./ui/blueprint/pico.min.css");
-  if (!js_buff || !css_buff || !css_fw_buff) return -1; //Error handling
+  if (!css_buff || !css_fw_buff) return -1; //Error handling
   html_dump += HEAD;
   html_dump += css_fw_buff;
   html_dump += '\n';
@@ -68,9 +67,8 @@ int create_page() {
       delete[] temp_sprintf_buff;
     }
   }
-  html_dump += js_buff_mod + js_buff;
+  html_dump += js_buff_mod;
   html_dump += FOOTER;
-  delete[] js_buff;
   delete[] css_buff;
   delete[] css_fw_buff;
   if (write_file("./ui/index.html", "w", html_dump.toCharArray(), html_dump.length())==-1) {
