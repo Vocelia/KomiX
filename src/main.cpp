@@ -4,7 +4,6 @@
 #include <libwebsockets.h>
 
 #include "include/misc.h"
-#include "include/exec.h"
 #include "include/uigen.h"
 #include "include/config.h"
 #include "include/predefined.h"
@@ -47,7 +46,7 @@ static int komi_cb(struct lws* wsi, enum lws_callback_reasons reason, void* user
       lwsl_notice("[DEBUG]: Message -> \"%s\"\n", &rx.data[LWS_SEND_BUFFER_PRE_PADDING]);
       id_phldr = strspl(&rx.data[LWS_SEND_BUFFER_PRE_PADDING], '-', &len_ptr);
       CONFIG->get_all_keys(CONFIG->sections.names[atoi(id_phldr[0])]);
-      execute_command(CONFIG->ini.GetValue(CONFIG->sections.names[atoi(id_phldr[0])], CONFIG->keys.names[atoi(id_phldr[1])]));
+      execCmdAsync(CONFIG->ini.GetValue(CONFIG->sections.names[atoi(id_phldr[0])], CONFIG->keys.names[atoi(id_phldr[1])]));
       free(id_phldr);
       break;
     case LWS_CALLBACK_CLOSED:

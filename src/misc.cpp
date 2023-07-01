@@ -1,7 +1,10 @@
+#include <thread>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <errno.h>
+
+#include "include/exec.h"
 
 #ifdef _WIN32
 #include <windows.h>
@@ -50,6 +53,11 @@ char* getLocalIPAddr() {
   return IP;
 }
 #endif
+
+void execCmdAsync(const char* cmd) {
+  std::thread thr(execute_command, cmd);
+  thr.detach();
+}
 
 //str: String to be split
 //delim: Delimiter to split upon
