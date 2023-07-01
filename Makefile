@@ -5,7 +5,6 @@ INCLUDE = -Isrc/include
 LDFLAGS = -lstdc++ -lwebsockets
 ifeq ($(OS), Windows_NT)
 	TARGET = main.exe
-	cp -r lib/* $(OUTDIR)
 else
 	TARGET = main
 endif
@@ -27,6 +26,9 @@ build:
 	cp -r ui $(OUTDIR)
 	cp -r data $(OUTDIR)
 	mkdir $(OUTDIR)/logs
+	@if [ $(OS) = Windows_NT ]; then\
+        cp -r lib/* $(OUTDIR);\
+    fi
 	$(CXX) $(CXXFLAGS) ./$(OUTDIR)/$(TARGET) src/main.cpp src/config.cpp src/uigen.cpp src/exec.cpp src/misc.cpp src/wrapper/String.cpp $(INCLUDE) $(LDFLAGS)
 
 clean:
