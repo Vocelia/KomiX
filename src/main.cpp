@@ -71,16 +71,11 @@ int main(int argc, char** argv) {
   COMMAND_OUTPUT = atoi(serv->ini.GetValue("", "command_output"));
   printf("Initialised server constants successfully!\n");
   printf("Checking the validity of LOGS_PATH directory...\n");
-  char* LOGS_PATH_RW = new char[strlen(LOGS_PATH)];
-  memcpy(LOGS_PATH_RW, LOGS_PATH, strlen(LOGS_PATH));
-  char* tkn = strrchr(LOGS_PATH_RW, '/');
-  if (tkn==NULL) tkn = strrchr(LOGS_PATH_RW, '\\');
-  memset(tkn, 0, strlen(tkn));
-  if (!dir_exists(LOGS_PATH_RW)) {
+  if (!dir_exists(LOGS_PATH)) {
     printf("[ERR]: The path provided isn't valid!\n");
     return -1;
   }
-  delete[] LOGS_PATH_RW;
+  //delete[] LOGS_PATH_RW;
   printf("LOGS_PATH is a valid directory!\n");
   printf("Reading from config.ini...\n");
   CONFIG = new Config("./data/config.ini");

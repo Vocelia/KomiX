@@ -7,10 +7,17 @@
 #include "include/predefined.h"
 
 static time_t now;
+static short backslash = 0; 
 
 int execute_command(const char* cmd) {
+  time(&now);
+  char cmdname[214];
+  char filename[256];
+  char ctime_plhdr[26];
+  unsigned long cmd_len;
   char cmd_out[strlen(cmd)+4];
   char cmd_buff[strlen(cmd)+5];
+  char filepath[strlen(LOGS_PATH)+256];
   sprintf(cmd_buff, "%s 2>&1", cmd);
   #ifdef _WIN32
     FILE* pfd = _popen(cmd_buff, "r");
@@ -18,6 +25,25 @@ int execute_command(const char* cmd) {
     FILE* pfd = popen(cmd_buff, "r");
   #endif
   char* output = new char[512];
+  char** cmd_spl = strspl(cmd, ' ', &cmd_len);
+  #ifdef _WIN32
+    const char* tkn = strrchr(cmd_spl[0], '/');
+    if (tkn) { tkn++; snprintf(cmdname, 214, "%s", tkn); }
+    else {
+      tkn = strrchr(cmd_spl[0], '\\');
+      if (tkn) { tkn++; snprintf(cmdname, 214, "%s", tkn); backslash = 1; }
+      else snprintf(cmdname, 214, "%s", cmd_spl[0]);
+    }
+  #else
+    const char* tkn = strrchr(cmd_spl[0], '/');
+    if (tkn) { tkn++; snprintf(cmdname, 214, "%s", tkn); }
+    else snprintf(cmdname, 214, "%s", cmd_spl[0]);
+  #endif
+  strcpy(ctime_plhdr, ctime(&now));
+  ctime_plhdr[strlen(ctime(&now))-1] = '\0';
+  sprintf(filename, "%s-%lu-[%s].txt", ctime_plhdr, clock(), cmdname); //214 + 42 = 256
+  if (!backslash) sprintf(filepath, "%s/%s", LOGS_PATH, filename);
+  else sprintf(filepath, "%s\\%s", LOGS_PATH, filename);
   if (!pfd) {
     printf("[ERR]: Failed to read from process \"%s\"!\n", cmd);
     return -1;
@@ -28,17 +54,16 @@ int execute_command(const char* cmd) {
       while (fgets(output, sizeof(output), pfd) != NULL) printf("%s", output);
       break;
     case 2:
-      time(&now);
-      write_file(LOGS_PATH, "a", ctime(&now), strlen(ctime(&now)));
+      write_file(filepath, "a", ctime(&now), strlen(ctime(&now)));
       sprintf(cmd_out, "[%s]\n", cmd);
-      write_file(LOGS_PATH, "a", cmd_out, strlen(cmd_out));
-      write_file(LOGS_PATH, "a", "-------------------------------------------------\n", 50);
+      write_file(filepath, "a", cmd_out, strlen(cmd_out));
+      write_file(filepath, "a", "-------------------------------------------------\n", 50);
       while (fgets(output, 512, pfd) != NULL) {
         unsigned long output_len = strlen(output);
         if (output[output_len-1] == '\n') output[output_len] = '\0';
-        write_file(LOGS_PATH, "a", output, output_len);
+        write_file(filepath, "a", output, output_len);
       }
-      write_file(LOGS_PATH, "a", "-------------------------------------------------\n\n", 51);
+      write_file(filepath, "a", "-------------------------------------------------\n\n", 51);
       break;
     default:
       printf("[ERR]: Unavailable option: \"%d\" in command_output value!\n", COMMAND_OUTPUT);
