@@ -6,7 +6,17 @@
   <a href="https://github.com/Vocelia/KomiX/releases/latest">Downloads</a>
 </p>
 <h4 align="center"><b>Transform your phone into a powerful remote control, effortlessly managing and executing commands on your computer.</b></h4>
-<video src="https://github-production-user-asset-6210df.s3.amazonaws.com/126959304/250340003-a6e36dd2-d139-4139-9293-d8ac3bcf3560.mp4" controls></video>
+
+
+
+
+
+https://github.com/Vocelia/KomiX/assets/126959304/1e804d63-c1fa-4383-b5f0-aaaea9dc2786
+
+
+
+
+
 
 [![OS](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)](https://github.com/torvalds/linux) [![OS](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://www.microsoft.com/en-us/software-download) [![C++](https://img.shields.io/badge/C++-00599C?style=for-the-badge&labelColor=01427d&logoColor=6295cb&logo=cplusplus)](https://en.wikipedia.org/wiki/C%2B%2B) [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
 
