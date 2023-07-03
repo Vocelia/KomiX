@@ -85,6 +85,13 @@ char** strspl(const char* str, const char delim, unsigned long* len) {
   return spl;
 }
 
+void strrplc(char* str, char tkn, char new_tkn) {
+  while(*str != '\0') {
+    if(*str == tkn) *str = new_tkn;
+    str++;
+  }
+}
+
 unsigned long get_filesize(const char* path) {
   FILE* file = fopen(path, "r");
   fseek(file, 0, SEEK_END); //places the cursor at the EOF
