@@ -93,6 +93,6 @@ First of all, navigate the `data` directory to access and modify `config.ini` an
 	Your address is: http://192.168.0.100:8080
 	-------------------------------------------------
 	```
-	Head to the given address on your phone's browser. Make sure it is of `http` protocol, and not `https`.  You will see an interface specifically generated based on your configurations. Clicking on one of these buttons will execute the corresponding command associated with it. Congratulations, you just executed a command on your desktop through your phone!
+	Head to the given address on your phone's browser. Make sure it is of `http` protocol, and not `https`.  You will see an interface specifically generated based on your configurations. Clicking on one of these buttons will execute the corresponding command associated with it. Congratulations, you just executed a command on your desktop through your phone! <br/>
 	**Note: In the case of no WiFi connection, the software will fail to display a valid address, as this software depends solely on local network—any interface supporting inet.**
 
