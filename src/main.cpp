@@ -75,7 +75,6 @@ int main(int argc, char** argv) {
     printf("[ERR]: The path provided isn't valid!\n");
     return -1;
   }
-  //delete[] LOGS_PATH_RW;
   printf("LOGS_PATH is a valid directory!\n");
   printf("Reading from config.ini...\n");
   CONFIG = new Config("./data/config.ini");
